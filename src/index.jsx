@@ -1,7 +1,6 @@
 import { createRoot } from 'react-dom/client';
-
-// Import components
 import { MainView } from '../components/main-view/main-view.jsx'
+import Container from 'react-bootstrap/Container';
 
 // Import statement to indicate that you need to bundle './index.scss'
 import './index.scss';
@@ -9,7 +8,9 @@ import './index.scss';
 // Main component (will eventually use all the others)
 const MyFlixApplication = () => {
     return (
-        <MainView />
+        <Container>
+            <MainView />
+        </Container>
     );
 };
 
