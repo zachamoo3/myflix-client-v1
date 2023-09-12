@@ -45,7 +45,7 @@ export const ProfileView = ({ user, token, onUserUpdated }) => {
 
     return (
         <Col>
-            <Row>
+            <Row> {/* Display user information */}
                 <h3>User Profile</h3>
                 <div>
                     <span>Username: </span>
@@ -60,7 +60,7 @@ export const ProfileView = ({ user, token, onUserUpdated }) => {
                     <span>{user.Birth_Date}</span>
                 </div>
             </Row>
-            <Row>
+            <Row> {/* Update user info */}
                 <h3>Update User Information</h3>
                 <Form onSubmit={updateUserInfo}>
                     <Form.Group controlId='formUsername'>
@@ -109,7 +109,7 @@ export const ProfileView = ({ user, token, onUserUpdated }) => {
                     </Button>
                 </Form>
             </Row>
-            <Row>
+            <Row> {/* Favorite movies */}
                 <h3>Favorite Movies</h3>
             </Row>
         </Col>
