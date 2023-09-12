@@ -15,38 +15,12 @@ export const MainView = () => {
 
     const [user, setUser] = useState(storedUser ? storedUser : null);
     const [token, setToken] = useState(storedToken ? storedToken : null);
-
     const [movies, setMovies] = useState([]);
-    const [favoriteMovies, setFavoriteMovies] = useState([]);
 
     useEffect(() => {
         if (!token) {
             return;
         }
-
-        fetch(`https://myflix3-8b08c65e975f.herokuapp.com/users/${user}`, {
-            method: 'GET',
-            headers: { Authorization: `Bearer ${token}` }
-        })
-            .then((response) => response.json())
-            .then(() => {
-                const userFromApi = ((doc) => {
-                    return {
-                        id: doc._id,
-                        username: doc.Username,
-                        password: doc.Password,
-                        email: doc.Email,
-                        birth_date: doc.Birth_Date,
-                        favorite_movies: doc.Favorite_Movies
-                    };
-                });
-
-                setUser(userFromApi);
-                setFavoriteMovies(user.favorite_movies);
-            })
-            .catch((err) => {
-                console.error(err);
-            });
 
         fetch('https://myflix3-8b08c65e975f.herokuapp.com/movies', {
             headers: { Authorization: `Bearer ${token}` }
@@ -71,9 +45,6 @@ export const MainView = () => {
             .catch((err) => {
                 console.error(err);
             });
-
-        console.log(user);
-        console.log(favoriteMovies);
     }, [token]);
 
 
@@ -97,7 +68,10 @@ export const MainView = () => {
                                     <Navigate to='/' />
                                 ) : (
                                     <Col md={5}>
-                                        <SignupView />
+                                        <SignupView onLoggedIn={(user, token) => {
+                                            setUser(user);
+                                            setToken(token);
+                                        }} />
                                     </Col>
                                 )}
                             </>
@@ -111,7 +85,10 @@ export const MainView = () => {
                                     <Navigate to='/' />
                                 ) : (
                                     <Col md={5}>
-                                        <LoginView onLoggedIn={(user) => setUser(user)} />
+                                        <LoginView onLoggedIn={(user, token) => {
+                                            setUser(user);
+                                            setToken(token);
+                                        }} />
                                     </Col>
                                 )}
                             </>
@@ -154,27 +131,21 @@ export const MainView = () => {
                         }
                     />
                     <Route
-                        path='/users'
+                        path='/profile'
                         element={
                             <>
                                 {!user ? (
                                     <Navigate to='/login' replace />
-                                ) : favoriteMovies.length === 0 ? (
-                                    <Col>
-                                        <Row>
-                                            <ProfileView user={user} />
-                                        </Row>
-                                        <Row>
-                                            The list is empty!
-                                        </Row>
-                                    </Col>
                                 ) : (
                                     <Col>
                                         <Row>
-                                            <ProfileView user={user} />
+                                            <ProfileView user={user} token={token} onUserUpdated={(user, token) => {
+                                                setUser(user);
+                                                setToken(token);
+                                            }} />
                                         </Row>
                                         <Row>
-                                            {favoriteMovies.map((movie) => (
+                                            {movies.map((movie) => (
                                                 <Col className='mb-4' key={movie.id} md={3}>
                                                     <MovieCard movie={movie} />
                                                 </Col>
