@@ -2,7 +2,7 @@ import { React, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-export const SignupView = () => {
+export const SignupView = ({ onLoggedIn }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
@@ -27,6 +27,9 @@ export const SignupView = () => {
         }).then((response) => {
             if (response.ok) {
                 alert('Signup successful.');
+                localStorage.setItem('user', JSON.stringify(data.user));
+                localStorage.setItem('token', data.token);
+                onLoggedIn(data.user, data.token);
                 window.location.reload();
             } else {
                 alert('Signup failed.');
