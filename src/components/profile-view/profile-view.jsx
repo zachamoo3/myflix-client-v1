@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import { FavoriteMovies } from './favorite-movies.jsx'
+// import { FavoriteMovies } from './favorite-movies.jsx'
 
 export const ProfileView = ({ user, token }) => {
 
@@ -114,7 +114,7 @@ export const ProfileView = ({ user, token }) => {
             </Row>
             <Row> {/* Favorite movies */}
                 <h3>Favorite Movies</h3>
-                <FavoriteMovies user={user} token={token} />
+                {/* <FavoriteMovies user={user} token={token} /> */}
             </Row>
         </Col>
     );
