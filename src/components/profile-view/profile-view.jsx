@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import DeleteProfile from './delete-profile';
 // import { FavoriteMovies } from './favorite-movies.jsx'
 
 export const ProfileView = ({ user, token }) => {
@@ -12,11 +13,15 @@ export const ProfileView = ({ user, token }) => {
     const [email, setEmail] = useState('');
     const [birth_date, setBirth_date] = useState('');
 
+    const [modalOpen, setModalOpen] = useState(false);
+
     useEffect(() => {
         setUsername(user.Username);
         setEmail(user.Email);
         setBirth_date(user.Birth_Date.slice(0, 10));
     }, []);
+
+
 
     const updateUserInfo = (event) => {
         event.preventDefault();
@@ -45,6 +50,8 @@ export const ProfileView = ({ user, token }) => {
             }
         });
     };
+
+
 
     return (
         <Col>
@@ -115,6 +122,11 @@ export const ProfileView = ({ user, token }) => {
             <Row> {/* Favorite movies */}
                 <h3>Favorite Movies</h3>
                 {/* <FavoriteMovies user={user} token={token} /> */}
+            </Row>
+            <Row>
+                {/* Delete account */}
+                <h3>Wish to delete your profile?</h3>
+                <DeleteProfile />
             </Row>
         </Col>
     );
