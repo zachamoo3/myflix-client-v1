@@ -10,7 +10,7 @@ export const LoginView = ({ onLoggedIn }) => {
         // this prevents the default behavior of the form which is to reload the page
         event.preventDefault();
 
-        const data = {
+        const inputData = {
             Username: username,
             Password: password
         };
@@ -20,7 +20,7 @@ export const LoginView = ({ onLoggedIn }) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(inputData)
         })
             .then((response) => response.json())
             .then((data) => {
