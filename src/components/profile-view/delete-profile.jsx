@@ -2,16 +2,38 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-function DeleteProfile() {
+function DeleteProfile({ onDelete }) {
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    const storedToken = localStorage.getItem('token');
+
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    const deleteProfile = () => {
+        fetch(`https://myflix3-8b08c65e975f.herokuapp.com/users/${storedUser.Username}`, {
+            method: 'DELETE',
+            headers: {
+                Authorization: `Bearer ${storedToken}`,
+                'Content-Type': 'application/json'
+            }
+        }).then((response) => {
+            if (response.ok) {
+                handleClose();
+                alert('User deleted successfully.');
+                window.location.reload();
+                onDelete();
+            } else {
+                alert('User deletion failed.');
+            }
+        });
+    };
+
     return (
         <>
             <Button variant='primary' onClick={handleShow}>
-                Launch modal
+                Delete Profile
             </Button>
 
             <Modal
@@ -20,17 +42,17 @@ function DeleteProfile() {
                 onHide={handleClose}
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal heading</Modal.Title>
+                    <Modal.Title>Delete?</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    This is the modal body
+                    Are you really sure that you want to delete your profile?  This cannot be undone.
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant='secondary' onClick={handleClose}>
-                        Close
+                        No
                     </Button>
-                    <Button variant='primary' onClick={handleClose}>
-                        Save Changes
+                    <Button variant='primary' onClick={deleteProfile}>
+                        DELETE
                     </Button>
                 </Modal.Footer>
             </Modal>
