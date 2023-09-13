@@ -20,7 +20,7 @@ export const MainView = () => {
     useEffect(() => {
         if (!token) {
             return;
-        }
+        };
 
         fetch('https://myflix3-8b08c65e975f.herokuapp.com/movies', {
             headers: { Authorization: `Bearer ${token}` }
@@ -139,18 +139,15 @@ export const MainView = () => {
                                 ) : (
                                     <Col>
                                         <Row>
-                                            <ProfileView user={user} token={token} onUserUpdated={(user, token) => {
-                                                setUser(user);
-                                                setToken(token);
-                                            }} />
+                                            <ProfileView user={user} token={token} />
                                         </Row>
-                                        <Row>
+                                        {/* <Row>
                                             {movies.map((movie) => (
                                                 <Col className='mb-4' key={movie.id} md={3}>
                                                     <MovieCard movie={movie} />
                                                 </Col>
                                             ))}
-                                        </Row>
+                                        </Row> */}
                                     </Col>
                                 )}
                             </>

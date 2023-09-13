@@ -1,24 +1,31 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import { FavoriteMovies } from './favorite-movies.jsx'
 
-export const ProfileView = ({ user, token, onUserUpdated }) => {
+export const ProfileView = ({ user, token }) => {
 
-    const [Username, setUsername] = useState('');
-    const [Password, setPassword] = useState('');
-    const [Email, setEmail] = useState('');
-    const [Birth_Date, setBirth_date] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [birth_date, setBirth_date] = useState('');
+
+    useEffect(() => {
+        setUsername(user.Username);
+        setEmail(user.Email);
+        setBirth_date(user.Birth_Date.slice(0, 10));
+    }, []);
 
     const updateUserInfo = (event) => {
         event.preventDefault();
 
         const data = {
-            Username: Username,
-            Password: Password,
-            Email: Email,
-            Birth_Date: Birth_Date
+            Username: username,
+            Password: password,
+            Email: email,
+            Birth_Date: birth_date
         };
 
         fetch(`https://myflix3-8b08c65e975f.herokuapp.com/users/${user.Username}`, {
@@ -30,16 +37,12 @@ export const ProfileView = ({ user, token, onUserUpdated }) => {
             }
         }).then((response) => {
             if (response.ok) {
-                alert('Update successful.');
+                alert('User update successful.');
+                console.log('User updated: ', data);
                 window.location.reload();
             } else {
-                alert('Update failed.');
+                alert('User update failed.');
             }
-        }).then((data) => {
-            console.log('User updated: ', data);
-            localStorage.setItem('user', JSON.stringify(data.user));
-            localStorage.setItem('token', data.token);
-            onUserUpdated(data.user, data.token);
         });
     };
 
@@ -49,15 +52,15 @@ export const ProfileView = ({ user, token, onUserUpdated }) => {
                 <h3>User Profile</h3>
                 <div>
                     <span>Username: </span>
-                    <span>{user.Username}</span>
+                    <span>{username}</span>
                 </div>
                 <div>
                     <span>Email: </span>
-                    <span>{user.Email}</span>
+                    <span>{email}</span>
                 </div>
                 <div>
                     <span>Date of Birth: </span>
-                    <span>{user.Birth_Date}</span>
+                    <span>{birth_date.slice(0, 10)}</span>
                 </div>
             </Row>
             <Row> {/* Update user info */}
@@ -67,7 +70,7 @@ export const ProfileView = ({ user, token, onUserUpdated }) => {
                         <Form.Label>Username: </Form.Label>
                         <Form.Control
                             type='text'
-                            value={Username}
+                            value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             required
                             minLength='5'
@@ -78,7 +81,7 @@ export const ProfileView = ({ user, token, onUserUpdated }) => {
                         <Form.Label>Password: </Form.Label>
                         <Form.Control
                             type='password'
-                            value={Password}
+                            value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
                         />
@@ -88,7 +91,7 @@ export const ProfileView = ({ user, token, onUserUpdated }) => {
                         <Form.Label>Email: </Form.Label>
                         <Form.Control
                             type='email'
-                            value={Email}
+                            value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
                         />
@@ -98,7 +101,7 @@ export const ProfileView = ({ user, token, onUserUpdated }) => {
                         <Form.Label>Birthday: </Form.Label>
                         <Form.Control
                             type='date'
-                            value={Birth_Date}
+                            value={birth_date}
                             onChange={(e) => setBirth_date(e.target.value)}
                             required
                         />
@@ -111,6 +114,7 @@ export const ProfileView = ({ user, token, onUserUpdated }) => {
             </Row>
             <Row> {/* Favorite movies */}
                 <h3>Favorite Movies</h3>
+                <FavoriteMovies user={user} token={token} />
             </Row>
         </Col>
     );
