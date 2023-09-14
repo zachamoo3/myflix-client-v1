@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from 'react';
+import { React } from 'react';
 import Col from 'react-bootstrap/Col';
 import { MovieCard } from '../movie-card/movie-card';
 
