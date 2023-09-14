@@ -89,7 +89,7 @@ export const ProfileView = ({ onDelete, movies }) => {
                     </Row>
                     <br />
                     <Row> {/* Delete account */}
-                        <h3>Wish to delete your profile?</h3>
+                        <h3>Delete your profile?</h3>
                         <DeleteProfileModal onDelete={onDelete} />
                     </Row>
                 </Col>
