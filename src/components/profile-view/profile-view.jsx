@@ -73,7 +73,7 @@ export const ProfileView = ({ onDelete, movies }) => {
             <Row>
                 <Col>
                     <Row> {/* Display user information */}
-                        <h3>User Profile</h3>
+                        <h1>User Profile</h1>
                         <div>
                             <span>Username: </span>
                             <span>{storedUser.Username}</span>
@@ -87,7 +87,6 @@ export const ProfileView = ({ onDelete, movies }) => {
                             <span>{storedUser.Birth_Date.slice(0, 10)}</span>
                         </div>
                     </Row>
-                    <br />
                     <Row> {/* Delete account */}
                         <h3>Delete your profile?</h3>
                         <DeleteProfileModal onDelete={onDelete} />
@@ -144,7 +143,7 @@ export const ProfileView = ({ onDelete, movies }) => {
                 </Col>
             </Row>
             <Row> {/* Favorite movies */}
-                <h3>Favorite Movies</h3>
+                <h1>Favorite Movies</h1>
                 <FavoriteMovies movies={movies} />
             </Row>
         </Col>
