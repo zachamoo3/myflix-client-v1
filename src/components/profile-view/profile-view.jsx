@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import DeleteProfile from './delete-profile-modal';
+import DeleteProfileModal from './delete-profile-modal';
 import FavoriteMovies from './favorite-movies'
 
 export const ProfileView = ({ onDelete, movies }) => {
@@ -90,7 +90,7 @@ export const ProfileView = ({ onDelete, movies }) => {
                     <br />
                     <Row> {/* Delete account */}
                         <h3>Wish to delete your profile?</h3>
-                        <DeleteProfile onDelete={onDelete} />
+                        <DeleteProfileModal onDelete={onDelete} />
                     </Row>
                 </Col>
                 <Col> {/* Update user info */}
