@@ -56,6 +56,7 @@ export const MainView = () => {
                 user={user}
                 onLoggedOut={() => {
                     setUser(null);
+                    localStorage.clear();
                 }}
             />
             <Row className='justify-content-md-center'>
@@ -68,10 +69,7 @@ export const MainView = () => {
                                     <Navigate to='/' />
                                 ) : (
                                     <Col md={5}>
-                                        <SignupView onLoggedIn={(user, token) => {
-                                            setUser(user);
-                                            setToken(token);
-                                        }} />
+                                        <SignupView />
                                     </Col>
                                 )}
                             </>
@@ -139,15 +137,14 @@ export const MainView = () => {
                                 ) : (
                                     <Col>
                                         <Row>
-                                            <ProfileView user={user} token={token} />
+                                            <ProfileView
+                                                onDelete={() => {
+                                                    setUser(null);
+                                                    setToken(null);
+                                                    localStorage.clear();
+                                                }}
+                                            />
                                         </Row>
-                                        {/* <Row>
-                                            {movies.map((movie) => (
-                                                <Col className='mb-4' key={movie.id} md={3}>
-                                                    <MovieCard movie={movie} />
-                                                </Col>
-                                            ))}
-                                        </Row> */}
                                     </Col>
                                 )}
                             </>

@@ -2,7 +2,7 @@ import { React, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-export const SignupView = ({ onLoggedIn }) => {
+export const SignupView = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
@@ -11,7 +11,7 @@ export const SignupView = ({ onLoggedIn }) => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        const data = {
+        const inputData = {
             Username: username,
             Password: password,
             Email: email,
@@ -20,21 +20,20 @@ export const SignupView = ({ onLoggedIn }) => {
 
         fetch('https://myflix3-8b08c65e975f.herokuapp.com/users', {
             method: 'POST',
-            body: JSON.stringify(data),
+            body: JSON.stringify(inputData),
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).then((response) => {
-            if (response.ok) {
-                alert('Signup successful.');
-                localStorage.setItem('user', JSON.stringify(data.user));
-                localStorage.setItem('token', data.token);
-                onLoggedIn(data.user, data.token);
-                window.location.reload();
-            } else {
-                alert('Signup failed.');
-            }
-        });
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data) {
+                    alert('Signup successful!  You can now log in!');
+                    window.location.reload();
+                } else {
+                    alert('Signup failed.  Please try again.');
+                }
+            });
     };
 
     return (

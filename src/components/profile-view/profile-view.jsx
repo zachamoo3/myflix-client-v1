@@ -3,48 +3,70 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import { FavoriteMovies } from './favorite-movies.jsx'
+import DeleteProfile from './delete-profile';
+import FavoriteMovies from './favorite-movies'
 
-export const ProfileView = ({ user, token }) => {
+export const ProfileView = ({ onDelete }) => {
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    const storedToken = localStorage.getItem('token');
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [birth_date, setBirth_date] = useState('');
 
-    useEffect(() => {
-        setUsername(user.Username);
-        setEmail(user.Email);
-        setBirth_date(user.Birth_Date.slice(0, 10));
-    }, []);
+
 
     const updateUserInfo = (event) => {
         event.preventDefault();
 
-        const data = {
+        const inputData = {
             Username: username,
             Password: password,
             Email: email,
             Birth_Date: birth_date
         };
+        console.log('inputData: ', inputData);
 
-        fetch(`https://myflix3-8b08c65e975f.herokuapp.com/users/${user.Username}`, {
+        fetch(`https://myflix3-8b08c65e975f.herokuapp.com/users/${storedUser.Username}`, {
             method: 'PUT',
-            body: JSON.stringify(data),
+            body: JSON.stringify(inputData),
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${storedToken}`,
                 'Content-Type': 'application/json'
             }
         }).then((response) => {
             if (response.ok) {
                 alert('User update successful.');
-                console.log('User updated: ', data);
-                window.location.reload();
+                console.log('User updated: ', inputData);
+                fetchUpdatedUser(inputData.Username)
             } else {
                 alert('User update failed.');
             }
         });
     };
+
+    const fetchUpdatedUser = (newUsername) => {
+        fetch(`https://myflix3-8b08c65e975f.herokuapp.com/users/${newUsername}`, {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${storedToken}`,
+                'Content-Type': 'application/json'
+            }
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data) {
+                    localStorage.setItem('user', JSON.stringify(data));
+                    console.log('Local storage updated: ', data)
+                    window.location.reload();
+                } else {
+                    alert('Local storage update failed.');
+                }
+            });
+    }
+
+
 
     return (
         <Col>
@@ -52,15 +74,15 @@ export const ProfileView = ({ user, token }) => {
                 <h3>User Profile</h3>
                 <div>
                     <span>Username: </span>
-                    <span>{username}</span>
+                    <span>{storedUser.Username}</span>
                 </div>
                 <div>
                     <span>Email: </span>
-                    <span>{email}</span>
+                    <span>{storedUser.Email}</span>
                 </div>
                 <div>
                     <span>Date of Birth: </span>
-                    <span>{birth_date.slice(0, 10)}</span>
+                    <span>{storedUser.Birth_Date.slice(0, 10)}</span>
                 </div>
             </Row>
             <Row> {/* Update user info */}
@@ -114,7 +136,12 @@ export const ProfileView = ({ user, token }) => {
             </Row>
             <Row> {/* Favorite movies */}
                 <h3>Favorite Movies</h3>
-                <FavoriteMovies user={user} token={token} />
+                <FavoriteMovies />
+            </Row>
+            <Row>
+                {/* Delete account */}
+                <h3>Wish to delete your profile?</h3>
+                <DeleteProfile onDelete={onDelete} />
             </Row>
         </Col>
     );
