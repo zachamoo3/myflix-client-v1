@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import DeleteProfile from './delete-profile';
-// import { FavoriteMovies } from './favorite-movies.jsx'
+import FavoriteMovies from './favorite-movies'
 
 export const ProfileView = ({ onDelete }) => {
     const storedUser = JSON.parse(localStorage.getItem('user'));
@@ -136,7 +136,7 @@ export const ProfileView = ({ onDelete }) => {
             </Row>
             <Row> {/* Favorite movies */}
                 <h3>Favorite Movies</h3>
-                {/* <FavoriteMovies user={user} token={token} /> */}
+                <FavoriteMovies />
             </Row>
             <Row>
                 {/* Delete account */}
