@@ -12,7 +12,7 @@ function FavoriteMovies() {
 
 
 
-    const fetchUserFavorites = () => { // asynchronous
+    const fetchUserFavorites = () => { // asynchronous because of fetch
         fetch(`https://myflix3-8b08c65e975f.herokuapp.com/users/${storedUser.Username}`, {
             method: 'GET',
             headers: { Authorization: `Bearer ${storedToken}` }
@@ -24,13 +24,13 @@ function FavoriteMovies() {
                 }); // logs an array of simple objects {_id, Title}
 
                 setFilterList(userMovieList); // successfully populates filterList with the list of the user's favorite movies' titles
-                console.log('filterList: ', userMovieList); // CONSOLE.LOG !!!
+                // console.log('filterList: ', userMovieList); // CONSOLE.LOG !!!
             });
     };
 
-    const fetchMovieInfo = (movieTitle) => { // asynchronous
+    const fetchMovieInfo = (movieTitle) => { // asynchronous because of fetch
         var movieTitleEncoded = encodeURIComponent(movieTitle.title); // makes the title URL compatible
-        console.log('movieTitleEncoded: ', movieTitleEncoded) // CONSOLE.LOG !!!
+        // console.log('movieTitleEncoded: ', movieTitleEncoded) // CONSOLE.LOG !!!
 
         fetch(`https://myflix3-8b08c65e975f.herokuapp.com/movies/${movieTitleEncoded}`, {
             method: 'GET',
@@ -38,7 +38,7 @@ function FavoriteMovies() {
         })
             .then((response) => response.json())
             .then((data) => { // data contains the doc's full details
-                console.log('data: ', data); // CONSOLE.LOG !!!
+                // console.log('data: ', data); // CONSOLE.LOG !!!
                 let movie = {
                     id: data._id,
                     title: data.Title,
@@ -53,6 +53,8 @@ function FavoriteMovies() {
             });
     };
 
+
+
     useEffect(() => {
         fetchUserFavorites();
         // filterList is an array of objects, each with a 'title'
@@ -60,7 +62,7 @@ function FavoriteMovies() {
 
     useEffect(() => {
         filterList.map((doc) => {
-            console.log('doc: ', doc); // CONSOLE.LOG !!!
+            // console.log('doc: ', doc); // CONSOLE.LOG !!!
             fetchMovieInfo(doc); // sends doc to fetchMovieInfo
         });
     }, [filterList]);
@@ -68,17 +70,6 @@ function FavoriteMovies() {
     useEffect(() => {
         console.log('movies: ', movies); // CONSOLE.LOG !!!
     }, [movies]);
-
-
-
-
-
-
-
-
-
-
-
 
 
 
