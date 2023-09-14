@@ -3,10 +3,10 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import DeleteProfile from './delete-profile';
+import DeleteProfileModal from './delete-profile-modal';
 import FavoriteMovies from './favorite-movies'
 
-export const ProfileView = ({ onDelete }) => {
+export const ProfileView = ({ onDelete, movies }) => {
     const storedUser = JSON.parse(localStorage.getItem('user'));
     const storedToken = localStorage.getItem('token');
 
@@ -70,78 +70,81 @@ export const ProfileView = ({ onDelete }) => {
 
     return (
         <Col>
-            <Row> {/* Display user information */}
-                <h3>User Profile</h3>
-                <div>
-                    <span>Username: </span>
-                    <span>{storedUser.Username}</span>
-                </div>
-                <div>
-                    <span>Email: </span>
-                    <span>{storedUser.Email}</span>
-                </div>
-                <div>
-                    <span>Date of Birth: </span>
-                    <span>{storedUser.Birth_Date.slice(0, 10)}</span>
-                </div>
-            </Row>
-            <Row> {/* Update user info */}
-                <h3>Update User Information</h3>
-                <Form onSubmit={updateUserInfo}>
-                    <Form.Group controlId='formUsername'>
-                        <Form.Label>Username: </Form.Label>
-                        <Form.Control
-                            type='text'
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            required
-                            minLength='5'
-                        />
-                    </Form.Group>
+            <Row>
+                <Col>
+                    <Row> {/* Display user information */}
+                        <h1>User Profile</h1>
+                        <div>
+                            <span>Username: </span>
+                            <span>{storedUser.Username}</span>
+                        </div>
+                        <div>
+                            <span>Email: </span>
+                            <span>{storedUser.Email}</span>
+                        </div>
+                        <div>
+                            <span>Date of Birth: </span>
+                            <span>{storedUser.Birth_Date.slice(0, 10)}</span>
+                        </div>
+                    </Row>
+                    <Row> {/* Delete account */}
+                        <h3>Delete your profile?</h3>
+                        <DeleteProfileModal onDelete={onDelete} />
+                    </Row>
+                </Col>
+                <Col> {/* Update user info */}
+                    <h3>Update User Information</h3>
+                    <Form onSubmit={updateUserInfo}>
+                        <Form.Group controlId='formUsername'>
+                            <Form.Label>Username: </Form.Label>
+                            <Form.Control
+                                type='text'
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                required
+                                minLength='5'
+                            />
+                        </Form.Group>
 
-                    <Form.Group controlId='formPassword'>
-                        <Form.Label>Password: </Form.Label>
-                        <Form.Control
-                            type='password'
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                    </Form.Group>
+                        <Form.Group controlId='formPassword'>
+                            <Form.Label>Password: </Form.Label>
+                            <Form.Control
+                                type='password'
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
+                        </Form.Group>
 
-                    <Form.Group controlId='formEmail'>
-                        <Form.Label>Email: </Form.Label>
-                        <Form.Control
-                            type='email'
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-                    </Form.Group>
+                        <Form.Group controlId='formEmail'>
+                            <Form.Label>Email: </Form.Label>
+                            <Form.Control
+                                type='email'
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                            />
+                        </Form.Group>
 
-                    <Form.Group controlId='formBirthDate'>
-                        <Form.Label>Birthday: </Form.Label>
-                        <Form.Control
-                            type='date'
-                            value={birth_date}
-                            onChange={(e) => setBirth_date(e.target.value)}
-                            required
-                        />
-                    </Form.Group>
+                        <Form.Group controlId='formBirthDate'>
+                            <Form.Label>Birthday: </Form.Label>
+                            <Form.Control
+                                type='date'
+                                value={birth_date}
+                                onChange={(e) => setBirth_date(e.target.value)}
+                                required
+                            />
+                        </Form.Group>
 
-                    <Button variant='primary' type='submit'>
-                        Submit
-                    </Button>
-                </Form>
+                        <Button variant='primary' type='submit'>
+                            Update
+                        </Button>
+                    </Form>
+                </Col>
             </Row>
             <Row> {/* Favorite movies */}
-                <h3>Favorite Movies</h3>
-                <FavoriteMovies />
-            </Row>
-            <Row>
-                {/* Delete account */}
-                <h3>Wish to delete your profile?</h3>
-                <DeleteProfile onDelete={onDelete} />
+                <h1>Favorite Movies</h1>
+                <FavoriteMovies movies={movies} />
             </Row>
         </Col>
     );

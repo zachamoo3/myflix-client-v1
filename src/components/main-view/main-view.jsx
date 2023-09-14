@@ -138,6 +138,7 @@ export const MainView = () => {
                                     <Col>
                                         <Row>
                                             <ProfileView
+                                                movies={movies}
                                                 onDelete={() => {
                                                     setUser(null);
                                                     setToken(null);

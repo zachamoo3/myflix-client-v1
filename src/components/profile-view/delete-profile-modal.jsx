@@ -1,8 +1,9 @@
 import { useState } from 'react';
+import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-function DeleteProfile({ onDelete }) {
+function DeleteProfileModal({ onDelete }) {
     const storedUser = JSON.parse(localStorage.getItem('user'));
     const storedToken = localStorage.getItem('token');
 
@@ -31,9 +32,9 @@ function DeleteProfile({ onDelete }) {
     };
 
     return (
-        <>
+        <Col>
             <Button variant='primary' onClick={handleShow}>
-                Delete Profile
+                Delete
             </Button>
 
             <Modal
@@ -56,8 +57,8 @@ function DeleteProfile({ onDelete }) {
                     </Button>
                 </Modal.Footer>
             </Modal>
-        </>
+        </Col>
     );
 };
 
-export default DeleteProfile;
+export default DeleteProfileModal;
