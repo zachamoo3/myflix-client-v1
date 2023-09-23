@@ -99,6 +99,7 @@ export const ProfileView = ({ onDelete, movies }) => {
                             <Form.Label>Username: </Form.Label>
                             <Form.Control
                                 type='text'
+                                placeholder='Username'
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
                                 required
@@ -110,6 +111,7 @@ export const ProfileView = ({ onDelete, movies }) => {
                             <Form.Label>Password: </Form.Label>
                             <Form.Control
                                 type='password'
+                                placeholder='Password'
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
@@ -120,6 +122,7 @@ export const ProfileView = ({ onDelete, movies }) => {
                             <Form.Label>Email: </Form.Label>
                             <Form.Control
                                 type='email'
+                                placeholder='Email'
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
